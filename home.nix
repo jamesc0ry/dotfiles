@@ -16,6 +16,8 @@ in
     jq        # json on the command line
     lazygit
     neovim
+    nodejs_22 # runtime for the agent-tool npm CLIs; firstmate installs the CLIs itself
+    gh        # github cli the agent tooling shells out to
     # the font everything renders in
     nerd-fonts.hack
   ];
@@ -26,6 +28,17 @@ in
     enable = true;
     autosuggestion.enable = true;      # ghost text from history
     syntaxHighlighting.enable = true;  # commands turn green when valid
+    # Agent tools install outside nix: the npm -g CLIs into ~/.npm-global (nix's
+    # own node prefix is read-only, so point npm at a writable one) and no-mistakes
+    # into its own app home. Expose both dirs here in .zshenv - the way nix exposes
+    # its own tools - rather than home.sessionPath, whose run-once guard gets skipped
+    # when the guard var is inherited already-set. firstmate installs the tools; this
+    # only makes them findable.
+    envExtra = ''
+      typeset -U path PATH
+      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+      path=("$HOME/.npm-global/bin" "$HOME/.no-mistakes/bin" $path)
+    '';
     initContent = ''
       bindkey '^f' autosuggest-accept
     '';
