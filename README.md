@@ -147,3 +147,15 @@ Neovim keeps italics off and uses a transparent background on macOS, Windows, an
 
 This repo is licensed under MIT No Attribution.
 See `LICENSE`.
+
+---
+
+## Fork notes
+
+Everything above this line is the upstream README from [kunchenguid/dotfiles](https://github.com/kunchenguid/dotfiles), kept verbatim so upstream merges stay clean.
+This fork's local customizations:
+
+- `flake.nix` sets `user = "cory"`, so the `user = "kunchen"` line quoted in "Make it yours" reads `user = "cory"` here.
+- Nix user packages additionally include Node.js and the GitHub CLI (`nodejs_22` and `gh` in `home.nix`), used by the agent tooling.
+- `home.nix` declares a `~/.local/bin/gh` symlink to the Nix per-user profile's `gh`, so the no-mistakes launchd daemon (whose fixed PATH includes `~/.local/bin` but not the Nix profile dirs) can find it.
+  If a manually created `~/.local/bin/gh` symlink already exists, home-manager activation may report a collision; remove the manual symlink (or let home-manager back it up) and switch again.
