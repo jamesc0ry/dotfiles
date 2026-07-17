@@ -17,7 +17,7 @@ Running the switch builds:
 
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
 - Homebrew apps (casks and CLI tools)
-- Nix user packages (ripgrep, fd, fzf, jq, lazygit, Neovim, Node.js, the GitHub CLI, Hack Nerd Font)
+- Nix user packages (ripgrep, fd, fzf, jq, lazygit, Neovim, Hack Nerd Font)
 - Shell (zsh, aliases, starship prompt)
 - Editor (Neovim config with the rose-pine moon theme)
 - Terminal (WezTerm config with the rose-pine moon theme)
@@ -84,7 +84,7 @@ No separate build-and-copy step.
 This repo is mine.
 If you clone it, review these before you run `bootstrap.sh`:
 
-- **Username**: run `./bootstrap.sh` (it detects your macOS username and offers to set it) OR change the single `user = "cory"` line in `flake.nix`.
+- **Username**: run `./bootstrap.sh` (it detects your macOS username and offers to set it) OR change the single `user = "kunchen"` line in `flake.nix`.
   Everything else (`configuration.nix`, `home.nix`, home directory paths) is threaded from that one variable.
 - **Host label** `"mac"`, in three places: `flake.nix` (the `darwinConfigurations."mac"` name), `rebuild.sh:5` (the `#mac` at the end of the flake reference), and `bootstrap.sh`'s first-switch command (also `#mac`).
   All three have to match.
@@ -147,3 +147,15 @@ Neovim keeps italics off and uses a transparent background on macOS, Windows, an
 
 This repo is licensed under MIT No Attribution.
 See `LICENSE`.
+
+---
+
+## Fork notes
+
+Everything above this line is the upstream README from [kunchenguid/dotfiles](https://github.com/kunchenguid/dotfiles), kept verbatim so upstream merges stay clean.
+This fork's local customizations:
+
+- `flake.nix` sets `user = "cory"`, so the `user = "kunchen"` line quoted in "Make it yours" reads `user = "cory"` here.
+- Nix user packages additionally include Node.js and the GitHub CLI (`nodejs_22` and `gh` in `home.nix`), used by the agent tooling.
+- `home.nix` declares a `~/.local/bin/gh` symlink to the Nix per-user profile's `gh`, so the no-mistakes launchd daemon (whose fixed PATH includes `~/.local/bin` but not the Nix profile dirs) can find it.
+  If a manually created `~/.local/bin/gh` symlink already exists, home-manager activation may report a collision; remove the manual symlink (or let home-manager back it up) and switch again.
