@@ -22,7 +22,7 @@
     };
     dock.autohide = false;
     finder.FXPreferredViewStyle = "Nlsv";  # list view by default
-    finder.CreateDesktop = false;          # clean desktop
+    finder.CreateDesktop = true;           # show desktop contents
     trackpad.Clicking = true;              # tap to click
   };
   nix-homebrew = {
@@ -40,6 +40,7 @@
     casks = [
       "wezterm"
       "claude-code"
+      "opensuperwhisper"
     ];
   };
 }
