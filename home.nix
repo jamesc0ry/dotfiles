@@ -76,6 +76,11 @@ in
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
 
+  # The no-mistakes launchd daemon runs with a fixed PATH that has ~/.local/bin
+  # but not the nix profile dirs, so expose gh where it can find it.
+  home.file.".local/bin/gh".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/profiles/per-user/${user}/bin/gh";
+
   home.file.".claude/CLAUDE.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
   home.file.".codex/AGENTS.md".source =
